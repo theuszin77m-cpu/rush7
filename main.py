@@ -11,7 +11,7 @@ templates = Jinja2Templates(directory="templates")
 
 Base.metadata.create_all(bind=engine)
 
-def gdef get_db():
+def get_db():
     return SessionLocal()
 
 @app.get("/")
@@ -26,7 +26,6 @@ return templates.TemplateResponse("register.html", {"request": request})
 def register(username: str = Form(...), password: str = Form(...)):
 db = get_db()
 
-```
 if db.query(User).filter(User.username == username).first():
     return RedirectResponse("/", status_code=303)
 
@@ -35,29 +34,25 @@ db.add(user)
 db.commit()
 
 return RedirectResponse("/", status_code=303)
-```
 
 @app.post("/login")
 def login(username: str = Form(...), password: str = Form(...)):
 db = get_db()
 user = db.query(User).filter(User.username == username).first()
 
-```
-if not user or not verify_password(password, user.password):
+user = db.query(User).filter(User.username == username).first()
     return RedirectResponse("/", status_code=303)
 
 response = RedirectResponse("/game", status_code=303)
 response.set_cookie(key="user", value=user.username)
 
 return response
-```
 
 @app.get("/game")
 def game(request: Request):
 db = get_db()
 username = request.cookies.get("user")
 
-```
 if not username:
     return RedirectResponse("/")
 
@@ -69,7 +64,6 @@ return templates.TemplateResponse("game.html", {
     "user": user,
     "bets": bets
 })
-```
 
 @app.post("/play-slot")
 def play_slot(request: Request):
@@ -77,7 +71,6 @@ db = get_db()
 username = request.cookies.get("user")
 user = db.query(User).filter(User.username == username).first()
 
-```
 if user.saldo < 10:
     return RedirectResponse("/game", status_code=303)
 
@@ -96,7 +89,6 @@ db.add(bet)
 
 db.commit()
 return RedirectResponse("/game", status_code=303)
-```
 
 @app.post("/play-roulette")
 def play_roulette(request: Request):
@@ -104,7 +96,6 @@ db = get_db()
 username = request.cookies.get("user")
 user = db.query(User).filter(User.username == username).first()
 
-```
 if user.saldo < 10:
     return RedirectResponse("/game", status_code=303)
 
@@ -122,4 +113,3 @@ db.add(bet)
 
 db.commit()
 return RedirectResponse("/game", status_code=303)
-```
