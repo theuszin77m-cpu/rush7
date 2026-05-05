@@ -23,7 +23,7 @@ def register_page(request: Request):
 return templates.TemplateResponse("register.html" {"request": request})
 
 @app.post("/register")
-def register(username: str = Form(...), password: str = Form(...)):
+def register(username: str = Form(...) password: str = Form(...)):
 db = get_db()
 
 if db.query(User).filter(User.username == username).first():
