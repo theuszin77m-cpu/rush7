@@ -15,7 +15,11 @@ def get_db():
     return SessionLocal()
 
 @app.get("/")
+@app.get("/")
 def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {
+        "request": request
+    })
 return templates.TemplateResponse("login.html" {"request": request})
 
 @app.get("/register")
