@@ -11,8 +11,8 @@ templates = Jinja2Templates(directory="templates")
 
 Base.metadata.create_all(bind=engine)
 
-def get_db():
-return SessionLocal()
+def gdef get_db():
+    return SessionLocal()
 
 @app.get("/")
 def login_page(request: Request):
