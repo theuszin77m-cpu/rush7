@@ -1,7 +1,13 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-from database import SessionLocal, engine, Base
+class User(Base):
+      __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String)
+    password = Column(String)
+    saldo = Column(Integer, default=100)
 from models import User, Bet
 from auth import hash_password, verify_password
 import random
